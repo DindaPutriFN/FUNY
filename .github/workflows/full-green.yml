@@ -1,0 +1,30 @@
+name: Full Green Contribution
+on:
+  workflow_dispatch:  # Menjalankan workflow secara manual
+
+jobs:
+  full-green:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "DindaPutriFN"
+          git config --global user.email "rerechan0202@gmail.com"
+
+      - name: Generate Fake Commits for Full Year
+        run: |
+          YEAR=2024
+          for DAY in {1..365}
+          do
+            DATE="$YEAR-$(date -d "$DAY days" +%m-%d)"
+            echo "Commit on $DATE" > commit.txt
+            git add commit.txt
+            GIT_COMMITTER_DATE="$DATE 12:00:00" git commit --date="$DATE 12:00:00" -m "Fake commit on $DATE"
+          done
+
+      - name: Push Commits
+        run: |
+          git push origin main --force
