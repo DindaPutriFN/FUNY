@@ -1,6 +1,8 @@
-# .github/workflows/main.yml
-
-on: push
+on:
+  push:
+  schedule:
+    - cron: '*/5 * * * *'  # Menjalankan setiap 5 menit
+  workflow_dispatch:  # Bisa dijalankan manual
 
 jobs:
   backfill-commits:
@@ -8,10 +10,10 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: bcanseco/github-contribution-graph-action@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GIT_EMAIL: rerechan0202@gmail.com
-        MAX_DAYS: 365
-        MIN_COMMITS_PER_DAY: 1
-        MAX_COMMITS_PER_DAY: 5
+      - uses: bcanseco/github-contribution-graph-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_EMAIL: rerechan0202@gmail.com
+          MAX_DAYS: 365
+          MIN_COMMITS_PER_DAY: 1
+          MAX_COMMITS_PER_DAY: 5
